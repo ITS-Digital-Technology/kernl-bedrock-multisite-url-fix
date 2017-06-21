@@ -81,7 +81,18 @@ class URLFixer {
     }
 }
 
-if (env('DISABLE_WP_CRON') == 'development') {
+
+/*
+    Host condition block to determine which URL fix to apply
+    1. Valet
+    2. everything else
+*/
+
+if (defined('WP_HOST') && WP_HOST == 'valet') {
+    URLFixer::instance()->add_filters();
+
+} else {
+
     add_filter('network_site_url', function($url, $path, $scheme) {
         $urls_to_fix = [
             '/wp-admin/network/',
@@ -90,16 +101,13 @@ if (env('DISABLE_WP_CRON') == 'development') {
             '/wp-signup.php',
         ];
 
-        foreach( $urls_to_fix as $maybe_fix_url ) {
+        foreach ($urls_to_fix as $maybe_fix_url) {
             $fixed_wp_url = '/wp' . $maybe_fix_url;
-            if ( false !== stripos( $url, $maybe_fix_url )
-                && false === stripos( $url, $fixed_wp_url ) ) {
-                $url = str_replace( $maybe_fix_url, $fixed_wp_url, $url );
+            if (stripos($url, $maybe_fix_url) !== false && stripos($url, $fixed_wp_url) === false ) {
+                $url = str_replace($maybe_fix_url, $fixed_wp_url, $url);
             }
         }
 
         return $url;
     }, 10, 3);
-} else {
-    URLFixer::instance()->add_filters();
 }
