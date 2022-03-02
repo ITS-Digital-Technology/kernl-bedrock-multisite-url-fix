@@ -1,12 +1,12 @@
 {
-    "name": "nupods/pods-bedrock-multisite-url-fix",
+    "name": "its-digital-technology/kernl-bedrock-multisite-url-fix",
     "description": "Plugin for to fix Multisite URL for Bedrock based sites",
     "version": "1.0.0",
     "type": "wordpress-plugin",
     "authors": [
         {
-            "name": "Provost Digital Strategy",
-            "email": "provost-digital@neu.edu"
+            "name": "NU Web Solutions",
+            "email": "provost-digital@northeastern.edu"
         }
     ],
     "require": {}
